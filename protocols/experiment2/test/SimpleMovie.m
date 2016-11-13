@@ -1,8 +1,35 @@
-function[x_loc, y_loc] = SimpleMovie(~, ~)
+function SimpleMovie(~, ~)
 %% Shravankumar, CVIT, IIITH
 % Date : 12-11-2016
 % To show videos and take responses on given scale
+%% UserData
+[outfile, ~, subid, subage, gender, group] = userlog();
+%% Screen setup
+[win,rect] = screenSetup();
+%% Specif the files to paly
+% database loading into imds variable
+imds = datastore('testVideos\','FileExtensions', '.mp4','Type', 'image');
+I = imds.Files;
+l = length(imds.Files);
+R = imread('rating.png');
+%% Main Loop
+for loop = 1:2
+    moviename= [I{randi([1,l])}];
+    %% Play the movie
+    fixCross(win,rect);
+    playmovie(moviename,win);
+    [~,x,y,~] = getResponse(win, R);
+    [rate] = rater(x);
+    fprintf(outfile,'%s\t %s\t %s\t %s\t %s\t %d\t %d\t %d\t\n', subid, subage, gender, group, moviename ,x, y, rate);
+    WaitSecs(2)    
+end % end of loop
+sca;
+fclose(outfile);
+end % end of the function
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Screen setup
+function [win,rect] = screenSetup()
 %% 
 % Select screen for display of movie:
 screenid = max(Screen('Screens'));
@@ -12,37 +39,7 @@ Screen('Preference', 'SkipSyncTests', 1);
 [win,rect] = Screen('OpenWindow', screenid, 0);
 % Set the blend funciton for the screen
 % Screen('BlendFunction', win, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
-%% Specif the files to paly
-%% database loading into imds variable
-imds = datastore('testVideos\','FileExtensions', '.mp4','Type', 'image');
-I = imds.Files;
-l = length(imds.Files);
-R = imread('rating.png');
-%% creating a file to write log
-fid = fopen('log\response.xls','a+');
-fprintf(fid,'%s\t %s\t %s\t %s\t\n', 'fname', 'x', 'y', 'rating');
-%%
-% Drawing the fixation cross
-fixCross(win,rect)
-%% Main Loop
-for loop = 1:2
-    moviename= [I{randi([1,l])}];
-    %% Play the movie
-    playmovie(moviename,win);
-    fixCross(win,rect);
-    [~,x,y,~] = getResponse(win, R);
-    [rate] = rater(x);
-    x_loc = x; 
-    y_loc = y;
-    fprintf(fid,'%s\t %d\t %d\t %d\t\n', moviename ,x, y, rate);
-    WaitSecs(2)    
-end % end of loop
-sca;
-fclose(fid);
-end % end of the function
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+end
 %% Play the movie:: function
 function playmovie(moviename,win)
 % Check if Psychtoolbox is properly installed:
@@ -126,9 +123,7 @@ Screen('FillRect', win);
 Screen('DrawTexture', win,Screen('MakeTexture', win, image));
 Screen('Flip', win); % must flip for the stimulus to show up on the mainwin
 ShowCursor('hand');
-
 [clicks,x,y,whichButton] = GetClicks(win,1);
-
 end
 %% Rater function::
 function [rate] = rater(x)
@@ -151,5 +146,27 @@ elseif (x >= min(x5) && x<=max(x5))
     rate =5;
 end
 end
+%% User log
+function [outfile, output, subid, subage, gender, group] = userlog()
+%% UserData
+% Login prompt and open file for writing data out
+prompt = {'Outputfile', 'Subject''SNumber:', 'Age', 'Gender', 'Group'};
+defaults = {'userRate', '1', '18', 'F', 'cvit'};
+answer = inputdlg(prompt, 'userRate', 2, defaults);
+[output, subid, subage, gender, group] = deal(answer{:}); % all input variables are strings
+response = [output gender subage  group subid '.xls'];
+
+if exist(response)==2 % check to avoid overiding an existing file
+    fileproblem = input('That file already exists! Append a .x (1), overwrite (2), or break (3/default)?');
+    if isempty(fileproblem) || fileproblem==3
+        return;
+    elseif fileproblem==1
+        response = [response '.x'];
+    end
+end
+outfile = fopen(response,'w+'); % open a file for writing data out
+fprintf(outfile, 'Subid\t Subage\t Gender\t Group\t Fname\t x\t y\t Rating\t \n');
+end
+
 
 

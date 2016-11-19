@@ -1,0 +1,95 @@
+options
+  bitmapdir stimuli
+  set &maxrt 2000
+  
+fonts
+  arial 18
+
+bitmaps
+  letterA ## 15 letters
+  letterB
+  letterC
+  letterD
+  letterE
+  letterH
+  letterI
+  letterK
+  letterL
+  letterM
+  letterO
+  letterP
+  letterR
+  letterS
+  letterT
+  instruction1
+  instruction2
+
+## in this task, all conditions are chosen randomly
+
+task nback
+  keys m n
+  set &trialcount increase
+  set $currentletter random 1 15 ## choose randomw letter, might be overridden
+  ############################################################################
+  ## is this condition a yes condition?
+  set $memory random 1 5 ## random number for choosing condition
+  ## if a 3back trial
+  if $memory == 1 && &trialcount > 3
+    set $currentletter &nback3
+    set $requiredresponse 1 ## the m key needs to be pressed later, m=easy for memory
+  fi
+  ## if a NON 3back trial
+  if $memory != 1 || &trialcount <= 3 ## chose a letter but not that of 3 trials ago
+    set $currentletter random 1 15
+    while $currentletter == &nback3 ## choose anything but NOT that of 3 back
+      set $currentletter random 1 15
+    while-end
+    set $requiredresponse 2 ## the n key needs to be pressed later # (n=easy for "no")
+  fi
+  ############################################################################
+  draw off
+    show bitmap $currentletter ## stimulus 1
+    show rectangle 0 -60 100 20  40 40 40  ## grey border above letter, stimulus 2
+    show rectangle 0 60 100 20   40 40 40  ## grey border below letter, stimulus 3
+  draw on
+  readkey $requiredresponse &maxrt
+  set $extrawait expression &maxrt - RT ## how much time is left between max RT and now?
+  ### was response correct?
+  set $score 0 ## this is the default, assume error
+  set $feedbackcol1 255
+  set $feedbackcol2 0
+  if STATUS == 1 ## if it was a 3back and correct key pressed
+    set $feedbackcol1 0
+    set $feedbackcol2 255
+  fi
+  ## now draw the two bars above and below letter in feedback color
+  show rectangle 0 -60 100 20   $feedbackcol1 $feedbackcol2 40 # stimulus 4
+  show rectangle 0  60 100 20   $feedbackcol1 $feedbackcol2 40 # stimulus 5
+  delay $extrawait ## wait until letter has been on screen total of 2000 ms
+  clear 1 4 5
+  delay 500 ## keep the feedback on for half a second more
+  clear 2 3 4 5 ## then delete all stimuli from screen
+  ### now save the letter for next trial
+  set &nback3 &nback2
+  set &nback2 &nback1
+  set &nback1 $currentletter
+  ### save the data
+  save STATUS KEY RT $memory &trialcount &nback1 &nback2 &nback3
+
+block training
+  set &trialcount 0 # make sure you use this again if you have another block
+  pager instruction1 instruction2
+  tasklist
+    nback 20
+  end
+  feedback
+    set &Total1 count ; select c4 == 1 ## number of trials where there was a 3back item
+    set &Total2 count ; select c4 > 1 ## number of trials where there was NOT a 3back item
+    set &ErrorCount1 count ; select c4 == 1 && c1 != 1 ## number of errors in 3-back=true trials
+    set &ErrorCount2 count ; select c4 > 1 && c1 != 1 ## numebr of errors in 3-back=false trials
+    set &ErrorPerc1 expression  &ErrorCount1 / &Total1  * 100.0
+    set &ErrorPerc2 expression  &ErrorCount2 / &Total2  * 100.0
+    text 0 -200 &ErrorPerc1 ; prefix "Error count in missing 3-back items:" ; postfix "percent"
+    text 0    0 &ErrorPerc2 ; prefix "Wrongly reporting there was an 3-back item" ; postfix "percent"
+    text 0  200 "Press space to continue and show data (below)"
+  end

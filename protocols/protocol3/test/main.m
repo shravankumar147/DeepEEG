@@ -47,7 +47,7 @@ for mm = 1:5 % This controls how many blocks you want to run
     % stay_quit()
     %% Main Loop
     fixCross(win,rect);
-    for loop = 1:3     % This loop controls how many stimuli's to show to the participant.
+    for loop = 1:2    % This loop controls how many stimuli's to show to the participant.
         %% Play the slide
         showimg(Ir,win,loop,sz1)
         WaitSecs(2)

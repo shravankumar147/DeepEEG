@@ -1,0 +1,9 @@
+Subid	 Subage	 Gender	 Group	 type	 CorrAns_CP	 CorrAns_BP	 Response	 Acc	 STATUS	  RT	 
+159	 18	 F	 cvit	 bar	 2	 1	 1	 1	 CORRECT	 1430.39	 
+159	 18	 F	 cvit	 bar	 2	 2	 2	 1	 CORRECT	 600.84	 
+159	 18	 F	 cvit	 char	 2	 1	 2	 1	 CORRECT	 867.70	 
+159	 18	 F	 cvit	 char	 2	 2	 2	 1	 CORRECT	 656.48	 
+159	 18	 F	 cvit	 pie	 2	 1	 1	 1	 CORRECT	 405.91	 
+159	 18	 F	 cvit	 pie	 2	 2	 2	 1	 CORRECT	 962.98	 
+159	 18	 F	 cvit	 pos	 2	 1	 2	 1	 CORRECT	 515.40	 
+159	 18	 F	 cvit	 pos	 2	 2	 2	 1	 CORRECT	 1099.76	 

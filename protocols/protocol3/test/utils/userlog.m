@@ -16,6 +16,6 @@ if exist(response)==2 % check to avoid overiding an existing file
     end
 end
 outfile = fopen(response,'w+'); % open a file for writing data out
-fprintf(outfile, 'Subid\t Subage\t Gender\t Group\t type\t CorrAns\t Rating\t Acc\t RT\t \n');
+fprintf(outfile, 'Subid\t Subage\t Gender\t Group\t type\t CorrAns_CP\t CorrAns_BP\t Response\t Acc\t STATUS\t  RT\t \n');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

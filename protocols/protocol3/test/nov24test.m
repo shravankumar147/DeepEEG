@@ -1,4 +1,4 @@
-function nov25test()
+function nov24test()
 %% Shravankumar, CVIT, IIITH
 % Date : 16-11-2016
 % example
@@ -14,14 +14,18 @@ addpath('utils\');
 KbName('UnifyKeyNames');
 spaceKey = KbName('space'); escKey = KbName('ESCAPE');
 % choose one out of four types : 1.bar, 2.pie, 3.char, 4.pos ==> 1, 2, 3, 4
-nb_blocks = 10; nb_stimuli = 10; k = 0; r = randi([0 1]);
+nb_blocks = 5; nb_stimuli = 4; k = 0; r = randi([0 1]);
 % Selecting a particular order to show images :
 n_cp = 2; % n-back for char and positions
 n_bp = 1; % n-back for Bar and Pie
 seq = seqgen(n_cp); s = seq(1,:); s = seq(randi([1,size(seq,1)]),:); % randomly selecting one out of 4 sequences for 2-back task
 %%
 for mm = 1:nb_blocks % This controls how many blocks you want to runs 
-    
+    c =randi([1,4]);     % color [1.blue; 2.cyan; 3.red; 4.green]
+    clr = chooseClr(c); % color [1.blue; 2.cyan; 3.red; 4.green] a string to show user/ participant: which color to compare
+    month = choosemnth(clr); yr = yrgen(s) ;
+    [corrAns_cp, ~] = nback_cp(n_cp, s); % generating correct answers before hand to evaluate participant performence :: char & position task
+    [corrAns_bp, ~] = nback_bp(c,n_bp,s); % generating correct answers before hand to evaluate participant performence :: bar & pie task
     N1  = [1 3 1 4 1 3 4 1 3 1 4]; N2 = [2 3 2 4 2 3 4 2 3 2 4];
     n = r*N1 + ~r*N2;
     if length(n) >= mm
@@ -44,18 +48,10 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
     
     WaitSecs(0.5)
     for loop = 1:nb_stimuli    % This loop controls how many stimuli's to show to the participant.
-        c =randi([1,4]);     % color [1.blue; 2.cyan; 3.red; 4.green]
-        clr = chooseClr(c); % color [1.blue; 2.cyan; 3.red; 4.green] a string to show user/ participant: which color to compare
-        month = choosemnth(c); yr = yrgen(s) ;
-        [corrAns_cp, ~] = nback_cp(n_cp, s); % generating correct answers before hand to evaluate participant performence :: char & position task
-        [corrAns_bp, ~] = nback_bp(c,n_bp,s); % generating correct answers before hand to evaluate participant performence :: bar & pie task
-        %% Play the slide        
+        %% Play the slide
         showimg(Ir,win,loop,sz1)
-        if strcmp(type,'bar') || strcmp(type,'pie')
-        WaitSecs(4)
-        else
-            WaitSecs(2)
-        end        
+        WaitSecs(3)
+        
         %% contineu or come out
         keyIsDown=0;
         while 1
@@ -72,11 +68,15 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
                     if loop > n_bp
                         disp('display image')
                         if strcmp(type,'bar')
+                            %                             Q1 = ['Is the current ' month num2str(yr(loop)) '-' clr ' bar bigger than \n the ' ...
+                            %                                 month num2str(yr(loop-(n_bp))) '-'  clr ' bar\n ' num2str(n_bp) ' back before'];
                             Q1 = ['Evaluate : ' month num2str(yr(loop)) '-' clr ' > ' ...
                                 month num2str(yr(loop-(n_bp))) '-'  clr ];
                             
                         else strcmp(type,'pie')
-                           Q1 = ['Evaluate : ' month num2str(yr(loop)) '-' clr ' > ' ...
+                            %                             Q1 = ['Is the current ' month num2str(yr(loop)) '-' clr ' pie sector bigger than \n the ' ...
+                            %                                 month num2str(yr(loop-(n_bp))) '-'  clr ' pie sector\n ' num2str(n_bp) ' back before'];
+                            Q1 = ['Evaluate : ' month num2str(yr(loop)) '-' clr ' > ' ...
                                 month num2str(yr(loop-(n_bp))) '-'  clr ];
 
                         end
@@ -115,11 +115,8 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
         end
         WaitSecs(0.5);
     end % end of loop
-    if mod(mm,2) == 0
-    instruction_show(win, 'Sit Back and Relax...! \nPlease Do Not Move',0 )
+    instruction_show(win, 'Sit back and Relax...!',0 )
     WaitSecs(10)
-    end
-    
 end %end of cognload
 sca;
 fclose(outfile);

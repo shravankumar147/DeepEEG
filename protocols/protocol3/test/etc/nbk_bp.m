@@ -1,5 +1,5 @@
 load('barpie_data.mat');
-R = dt(:,color)';
+R = dt(:,3)';
 n =nback;
 
     seq = [2 3 2 5 6 8 6 8 4 8 10 2 11 2 11 3 15 6 15 8];

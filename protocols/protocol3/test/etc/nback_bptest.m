@@ -1,8 +1,15 @@
-function [corrAns, char] = nback_bp(c,nb,seq)
+function [corrAns, char] = nback_bptest(c,nb,R,seq)
+%% tested on
+% nb = 1; c = 3; s = 1:10;R = [1 2 1 5 4 9 3 4 4 7]
+% [corrAns, char] = nback_bptest(c,nb,R,s) 
+% [corrAns, char] = nback_bptest(c,nb,R,s)
+
 load('barpie_data.mat');
-R = dt(:,c)';
-n =nb;
 if nargin<3
+R = dt(:,c)';
+end
+n =nb;
+if nargin<4
     seq = [2 3 2 5 6 8 6 8 4 8 10 2 11 2 11 3 15 6 15 8];
 end
 

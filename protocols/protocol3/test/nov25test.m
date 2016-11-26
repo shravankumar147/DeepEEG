@@ -3,12 +3,10 @@ function nov25test()
 % Date : 16-11-2016
 % example
 % choose one out of four types : bar, pie, char, pos
-% cognload('bar')
 % function call
 addpath('utils\');
 %  UserData
-% stay_quit();
-[outfile, subid, subage, gender, group] = userlog();
+[outfile, subid, subage, gender, group, n_bp, n_cp] = userlog();
 % Screen setup
 [win,rect] = screenSetup();
 KbName('UnifyKeyNames');
@@ -16,14 +14,21 @@ spaceKey = KbName('space'); escKey = KbName('ESCAPE');
 % choose one out of four types : 1.bar, 2.pie, 3.char, 4.pos ==> 1, 2, 3, 4
 nb_blocks = 10; nb_stimuli = 10; k = 0; r = randi([0 1]);
 % Selecting a particular order to show images :
-n_cp = 2; % n-back for char and positions
-n_bp = 1; % n-back for Bar and Pie
-seq = seqgen(n_cp); s = seq(1,:); s = seq(randi([1,size(seq,1)]),:); % randomly selecting one out of 4 sequences for 2-back task
+n_cp = str2double(n_cp); % n-back for char and positions
+n_bp = str2double(n_bp); % n-back for Bar and Pie
+seq = seqgen(n_cp);
 %%
 for mm = 1:nb_blocks % This controls how many blocks you want to runs 
-    
+    s = seq(randi([1,size(seq,1)]),:); % randomly selecting one out of 4 sequences for 2-back task
     N1  = [1 3 1 4 1 3 4 1 3 1 4]; N2 = [2 3 2 4 2 3 4 2 3 2 4];
-    n = r*N1 + ~r*N2;
+    N3 = [3 4 4 3 3 4 3 4 3 4 3 ];
+    lev = 'hard';
+    if strcmp(lev,'hard')
+        n = r*N1 + ~r*N2;
+    else
+        n = N3;
+    end
+    
     if length(n) >= mm
         k = k+1;
         type = stacktype(n(k));
@@ -70,7 +75,6 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
                 if strcmp(type,'bar') || strcmp(type,'pie')
                     
                     if loop > n_bp
-                        disp('display image')
                         if strcmp(type,'bar')
                             Q1 = ['Evaluate : ' month num2str(yr(loop)) '-' clr ' > ' ...
                                 month num2str(yr(loop-(n_bp))) '-'  clr ];
@@ -81,7 +85,6 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
 
                         end
                         [~,x,~,~,ar,rt] = getResponse_bp(win,rect,Q1);
-                        disp(ar)
                         [rate] = rater(x,ar,3);
                         acc = abs(corrAns_bp(loop) - rate); % have to change according to the question asked
                         corrAns_cp(loop) = 0;
@@ -93,7 +96,6 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
                     if loop > n_cp
                         if strcmp(type,'char')
                             Q2 = ['Did you see this character before ' num2str(n_cp) ' slides back'];
-                        
                         elseif strcmp(type,'pos')
                             Q2 = ['Did you see this block before ' num2str(n_cp) ' slides back in the same posiotion'];
                         end
@@ -118,11 +120,11 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
     if mod(mm,2) == 0
     instruction_show(win, 'Sit Back and Relax...! \nPlease Do Not Move',0 )
     WaitSecs(10)
-    end
-    
+    end  
 end %end of cognload
 sca;
 fclose(outfile);
+
 % movefile('*.xls','log\');
 end
 

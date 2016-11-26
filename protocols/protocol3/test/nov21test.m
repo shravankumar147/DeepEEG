@@ -1,4 +1,4 @@
-function cognload_edit()
+function nov21test()
 %% Shravankumar, CVIT, IIITH
 % Date : 16-11-2016
 % example
@@ -13,22 +13,23 @@ addpath('utils\');
 [win,rect] = screenSetup();
 KbName('UnifyKeyNames');
 spaceKey = KbName('space'); escKey = KbName('ESCAPE');
-
-%% n-back algorithm
-% Selecting a particular order to show images :
-n_cp = 2;
-n_bp = 1;
-color =3;
-seq = seqgen(n_cp);
-s = seq(randi([1,size(seq,1)]),:);
-[corrAns_cp, ~] = nback_cp(n_cp, s);
-[corrAns_bp, ~, ~] = nback_bp(color,n_bp,s);
-
-% s = seq(1,:);
 %% choose one out of four types : 1.bar, 2.pie, 3.char, 4.pos ==> 1, 2, 3, 4
 k = 0;
 for mm = 1:5 % This controls how many blocks you want to run
-    n = [1 3 2 4];
+    %% n-back algorithm
+    % Selecting a particular order to show images :
+    n_cp = 2; % n-back for char and positions
+    n_bp = 1; % n-back for Bar and Pie
+    seq = seqgen(n_cp);
+    s = seq(1,:);
+%   s = seq(randi([1,size(seq,1)]),:); % randomly selecting one out of 4 sequences for 2-back task
+    c =randi([1,4]);     % color [1.blue; 2.cyan; 3.red; 4.green]
+    clr = chooseClr(c); % color [1.blue; 2.cyan; 3.red; 4.green] a string to show user/ participant: which color to compare
+    month = choosemnth(clr);
+    [corrAns_cp, ~] = nback_cp(n_cp, s); % generating correct answers before hand to evaluate participant performence :: char & position task
+    [corrAns_bp, ~] = nback_bp(c,n_bp,s); % generating correct answers before hand to evaluate participant performence :: bar & pie task
+    
+    n = [1 3 2 4 3 2 1];
     if length(n) >= mm
         k = k+1;
         type = stacktype(n(k));
@@ -47,7 +48,7 @@ for mm = 1:5 % This controls how many blocks you want to run
     % stay_quit()
     %% Main Loop
     fixCross(win,rect);
-    for loop = 1:3     % This loop controls how many stimuli's to show to the participant.
+    for loop = 1:4    % This loop controls how many stimuli's to show to the participant.
         %% Play the slide
         showimg(Ir,win,loop,sz1)
         WaitSecs(2)
@@ -63,21 +64,22 @@ for mm = 1:5 % This controls how many blocks you want to run
                 end
             else
                 if strcmp(type,'bar') || strcmp(type,'pie')
-                    question_bp = ['Is the current red bar bigger or smaller than \n the red bar' num2str(n_bp) 'back before'];
+                    question_bp = ['Is the current ' month '-' clr ' bar bigger or smaller than \n the ' month '-'  clr ' bar ' num2str(n_bp) ' back before'];
                     [~,x,~,~,ar,rt] = getResponse_bp(win,rect,question_bp);
-                    [rate] = rater(x,ar);
+                    disp(ar)
+                    [rate] = rater(x,ar,3);
                     acc = abs(corrAns_bp(loop) - rate); % have to change according to the question asked 
                 elseif strcmp(type,'char') || strcmp(type,'pos')
-                    question_cp = ['Did you see this before' num2str(n_cp) 'slides'];
+                    question_cp = ['Did you see this before ' num2str(n_cp) ' slides'];
                     [~,x,~,~,ar,rt] = getResponse_cp(win,rect,question_cp);
-                    [rate] = rater(x,ar);
+                    [rate] = rater(x,ar,2);
                     acc = abs(corrAns_cp(loop) - rate);
                 end
                 status = evaluater(acc);
 %                 [rate] = rater(x,ar);
 %                 acc = abs(corrAns - rate);
-                fprintf(outfile,'%s\t %s\t %s\t %s\t %s\t %d\t %d\t %d\t %d\t %s\t %3.2f\t \n',...
-                                subid, subage, gender, group, type, corrAns_cp(loop), corrAns_bp(loop), rate, ~acc, status, rt);
+                fprintf(outfile,'%s\t %s\t %s\t %s\t %s\t %d\t %d\t %s\t %d\t %d\t %s\t %3.2f\t \n',...
+                                subid, subage, gender, group, type, corrAns_cp(loop), corrAns_bp(loop), clr, rate, ~acc, status, rt);
                 break;
             end
         end
@@ -86,7 +88,7 @@ for mm = 1:5 % This controls how many blocks you want to run
 end %end of cognload
 sca;
 fclose(outfile);
-movefile('*.xls','log\');
+% movefile('*.xls','log\');
 end
 
 
@@ -101,18 +103,22 @@ function showimg(img,win,loop,sz1)
         %ShowCursor('hand'); 
 end
 %% Rater function::
-function [rate] = rater(x,ar)
-
-if (x>ar(1,1) && x < ar(3,1))
-    rate=1;
-elseif (x>ar(1,2) && x < ar(3,2))
-    rate=2;
-elseif (x>ar(1,3) && x < ar(3,3))
-    rate=3;
-elseif (x>ar(1,4) && x < ar(3,4))
-    rate=4;
+function [rate] = rater(x,ar,n)
+if n==3
+    if (x>ar(1,1) && x < ar(3,1))
+        rate=1;
+    elseif (x>ar(1,2) && x < ar(3,2))
+        rate=2;
+    else
+        rate=3;
+    end
 else
-    rate=5;
+    if (x>ar(1,1) && x < ar(3,1))
+        rate=1;
+    else
+        rate=2;
+    end
+    
 end
 end
  

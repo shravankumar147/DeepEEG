@@ -1,21 +1,21 @@
 %% Rater function::
-function [rate] = rater(x)
-%%
-x1 = [487, 550];
-x2 = [575, 635];
-x3 = [660 720];
-x4 = [748 807];
-x5 = [833 895];
-%%
-if (x >= min(x1) && x<=max(x1))
-    rate = 1;
-elseif (x >= min(x2) && x<=max(x2))
-    rate =2;
-elseif (x >= min(x3) && x<=max(x3))
-    rate =3;
-elseif (x >= min(x4) && x<=max(x4))
-    rate =4;
-elseif (x >= min(x5) && x<=max(x5))
-    rate =5;
+function [rate] = rater(x,ar,n)
+if n==3
+    if (x>ar(1,1) && x < ar(3,1))
+        rate=1;
+    elseif (x>ar(1,2) && x < ar(3,2))
+        rate=2;
+    else
+        rate=3;
+    end
+elseif n == 2
+    if (x>ar(1,1) && x < ar(3,1))
+        rate=1;
+    else
+        rate=2;
+    end
+else
+    rate=1;
+    
 end
 end

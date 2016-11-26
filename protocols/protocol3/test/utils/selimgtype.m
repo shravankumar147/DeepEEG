@@ -2,10 +2,10 @@ function [I,len,size1] = selimgtype(type)
 %% Select type of stimuli you want to present
 % Shravankumar, CVIT, IIITH
 % example
-% [I,l] = selimgtype('bar')
-% [I,l] = selimgtype('pie')
-% [I,l] = selimgtype('char')
-% [I,l] = selimgtype('pos')
+% [I,l,sz1] = selimgtype('bar')
+% [I,l,sz1] = selimgtype('pie')
+% [I,l,sz1] = selimgtype('char')
+% [I,l,sz1] = selimgtype('pos')
 
 s1 = 'bar';
 s2 = 'pie';

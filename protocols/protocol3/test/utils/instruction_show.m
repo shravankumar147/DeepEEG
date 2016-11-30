@@ -1,6 +1,6 @@
 function instruction_show(win, inst, gt)
 if nargin < 2
-    inst = 'Observe the graph and memorize the variations\n\n click to continue';
+    inst = 'Observe and memorize the variations\n\n click to continue';
 end
 if nargin < 3
     gt = 1;

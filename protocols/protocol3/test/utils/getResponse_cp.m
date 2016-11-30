@@ -1,7 +1,6 @@
 %% Input to user & Get Response
 
-
-function [clicks,x,y,whichButton,allRects,rt] = getResponse_cp(win,rect,question)
+function [clicks,x,y,whichButton,allRects,rt] = getResponse_cp(win,rect)
 % Get Response for Character and Position Tasks
 [screenXpixels, screenYpixels] = Screen('WindowSize', win);
 [~, yCenter] = RectCenter(rect);
@@ -24,8 +23,8 @@ Screen('TextSize', win, 25);
 DrawFormattedText(win,'Yes  ',screenXpixels * 0.432,'center',[0 0 0]);
 DrawFormattedText(win,'No   ',screenXpixels * 0.535,'center',[0 0 0]);
 
-DrawFormattedText(win,question,'center',screenYpixels * 0.25,[255 255 255]);
-DrawFormattedText(win,'Click on any rectangle','center',screenYpixels * 0.75,[255 255 255]);
+% DrawFormattedText(win,question,'center',screenYpixels * 0.25,[255 255 255]);
+% DrawFormattedText(win,'Click on any rectangle','center',screenYpixels * 0.75,[255 255 255]);
 
 Screen('Flip', win);
 ShowCursor('hand');

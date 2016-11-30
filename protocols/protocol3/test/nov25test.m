@@ -46,7 +46,6 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
     %% Main Loop
     instruction_show(win);
     fixCross(win,rect);
-    
     WaitSecs(0.5)
     for loop = 1:nb_stimuli    % This loop controls how many stimuli's to show to the participant.
         c =randi([1,4]);     % color [1.blue; 2.cyan; 3.red; 4.green]
@@ -110,8 +109,8 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
                 status = evaluater(acc);
                 %                 [rate] = rater(x,ar);
                 %                 acc = abs(corrAns - rate);
-                fprintf(outfile,'%s\t %s\t %s\t %s\t %s\t %d\t %d\t %s\t %d\t %d\t %s\t %3.2f\t \n',...
-                    subid, subage, gender, group, type, corrAns_cp(loop), corrAns_bp(loop), clr, rate, ~acc, status, rt);
+                fprintf(outfile,'%s\t %s\t %s\t %s\t %s\t %d\t %d\t %d\t %d\t %s\t %d\t %d\t %s\t %3.2f\t \n',...
+                    subid, subage, gender, group, type, corrAns_cp(loop), n_cp, corrAns_bp(loop), n_bp, clr, rate, ~acc, status, rt);
                 break;
             end
         end

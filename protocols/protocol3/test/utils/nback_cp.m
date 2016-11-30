@@ -1,4 +1,4 @@
-function [corrAns, char] = nback_cp(n,seq)
+function [corrAns, char] = nback_cp(n,s)
 %% nback algorithm
 % Shravan Kumar, CVIT, IIIT, Hyderabad
 % inputs :
@@ -12,15 +12,15 @@ function [corrAns, char] = nback_cp(n,seq)
 %
 %  appending zeros to maintain robustness
 % disp(['n-backtask:' ' ' 'n=' num2str(n)])
-z = zeros(1,length(seq)+n+n);   % number to to be replaced by n;
-z(1,(n+1):end-n) = seq;         % number 3 is n+1
+z = zeros(1,size(s,2)+n+n);   % number to to be replaced by n;
+z(1,(n+1):end-n) = s;         % number 3 is n+1
 % performing the n-back algorithm
-d = zeros(size(seq));
+d = zeros(size(s));
 for i = 1:length(z)-n
     d(i) = z(i+n) - z(i);
 end
 % evaluating which character to be pressed on keyboard
-corrAns = zeros(size(seq)); char = zeros(size(seq));
+corrAns = zeros(size(s)); char = zeros(size(s));
 
 for i = 1:length(d)
     if d(i)

@@ -11,6 +11,7 @@ s1 = 'bar';
 s2 = 'pie';
 s3 = 'char';
 s4 = 'pos';
+s5 = 'instr';
 if strcmp(s1,type)
     disp('bar')
     %% Reading the image paths
@@ -43,6 +44,14 @@ elseif strcmp(s4,type)
     disp('pos')
     %% Reading the image paths
 imds = imageDatastore('input\positions\','FileExtensions', {'.jpg', '.png', '.tif'});
+I = imds.Files;
+I1 = imread(I{1});
+size1 = size(I1,1);
+% counting the number of images in the folder
+len = length(imds.Files);
+elseif strcmp(s5,type)
+    %% Reading the image paths
+imds = imageDatastore('input\nback\stimuli\instructions','FileExtensions', {'.jpg', '.png', '.tif'});
 I = imds.Files;
 I1 = imread(I{1});
 size1 = size(I1,1);

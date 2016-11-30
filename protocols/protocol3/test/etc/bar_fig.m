@@ -16,7 +16,7 @@ for i = 1:16
     name = ['bar' num2str(yi-1)];
     n = [n;name];
     title(name)
-    xlabel('Quarters')
+    xlabel('Months')
     ylabel('Rain Fall in cm')
     fname = [name '.png'];
     saveas(gcf,fname)

@@ -4,11 +4,11 @@ function type = stacktype(n)
 % >> type = stacktype(1)
 % >> type = bar
 if n == 1
-    type = 'bar';
-elseif n == 2
-    type = 'pie';
-elseif n == 3
     type = 'char';
+elseif n == 2
+    type = 'pos';
+elseif n == 3
+    type = 'bar';
 elseif n == 4
-    type = 'pos';   
+    type = 'pie';   
 end

@@ -12,7 +12,7 @@ addpath('utils\');
 KbName('UnifyKeyNames');
 spaceKey = KbName('space'); escKey = KbName('ESCAPE');
 % choose one out of four types : 1.bar, 2.pie, 3.char, 4.pos ==> 1, 2, 3, 4
-nb_blocks = 10; nb_stimuli = 10; k = 0; r = randi([0 1]);
+nb_blocks = 4; nb_stimuli = 4; k = 0; r = randi([0 1]);
 % Selecting a particular order to show images :
 n_cp = str2double(n_cp); % n-back for char and positions
 n_bp = str2double(n_bp); % n-back for Bar and Pie
@@ -59,7 +59,7 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
         %% Play the slide        
         showimg(Ir,win,loop,sz1)
         if strcmp(type,'bar') || strcmp(type,'pie')
-        WaitSecs(4)
+        WaitSecs(2)
         else
             WaitSecs(2)
         end        
@@ -121,7 +121,7 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
     end % end of loop
     if mod(mm,2) == 0
     instruction_show(win, 'Sit Back and Relax...! \nPlease Do Not Move',0 )
-    WaitSecs(10)
+    WaitSecs(1)
     end  
 end %end of cognload
 sca;

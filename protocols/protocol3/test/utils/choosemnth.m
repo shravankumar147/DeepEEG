@@ -2,11 +2,11 @@ function month = choosemnth(c)
 %%
 % 'BCRG'
 if c ==1
-    month = 'Jan';
+    month = 'January';
 elseif c==2
-    month = 'Feb';
+    month = 'February';
 elseif c==3
-    month = 'Mar';
+    month = 'March';
 else
-    month = 'Apr';
+    month = 'April';
 end

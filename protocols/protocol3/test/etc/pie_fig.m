@@ -19,6 +19,7 @@ for i = 1:16
     name = ['pie' num2str(yi-1)];
     n = [n;name];
     title(name)
+%     ax.FontWeight = 'bold';
     fname = [name '.png'];
-    saveas(gcf,fname)
+%     saveas(gcf,fname)
 end

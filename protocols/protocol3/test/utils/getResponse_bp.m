@@ -3,6 +3,7 @@ function [clicks,x,y,whichButton,allRects,rt] = getResponse_bp(win,rect)
 [screenXpixels, screenYpixels] = Screen('WindowSize', win);
 [~, yCenter] = RectCenter(rect);
 baseRect = [0 0 80 75];
+clicks = 0;
 % Screen X positions of our three rectangles
 squareXpos = [screenXpixels * 0.40 screenXpixels * 0.50 screenXpixels * 0.60 ];
 numSqaures = length(squareXpos);
@@ -24,6 +25,6 @@ DrawFormattedText(win,'Equal',screenXpixels * 0.58,'center',[0 0 0]);
 Screen('Flip', win);
 ShowCursor('hand');
 timeStart = GetSecs;
-[clicks,x,y,whichButton] = GetClicks(win,0);
+[x, y, whichButton] = customGetClicks(10,win);
 rt = 1000.*(GetSecs-timeStart); % reaction time is added
 end

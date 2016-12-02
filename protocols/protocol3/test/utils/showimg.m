@@ -8,7 +8,7 @@ Screen('DrawTexture', win,Screen('MakeTexture', win, img(sz1*(t)+1:((t+1)*sz1),:
 if loop > idx
     Screen('TextSize', win, 35); %
     Screen('TextFont', win,'Times'); %
-    DrawFormattedText(win, Q, 80, 634, [255 255 255]);
+    DrawFormattedText(win, Q, 80, 720, [255 255 255]);
 else
     Screen('DrawTexture', win,Screen('MakeTexture', win, img(sz1*(t)+1:((t+1)*sz1),:,:)));
 end

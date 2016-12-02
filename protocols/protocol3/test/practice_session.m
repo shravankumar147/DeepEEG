@@ -9,18 +9,18 @@ addpath('utils\');
 %  UserData
 [outfile, subid, subage, gender, group] = userlog();
 % Screen setup
-[win,rect] = screenSetup();
+[win,rect] = screenSetup(2);
 KbName('UnifyKeyNames');
 spaceKey = KbName('space'); escKey = KbName('ESCAPE');
 % choose one out of four types : 1. char, 2.pos , 3. bar, 4.pie ==> 1, 2, 3, 4
-nb_blocks = 2; nb_stimuli = 12; k = 0; r = randi([0 1]);
-N3 = [ 2 3 1 3
+nb_blocks = 1; nb_stimuli = 6; k = 0; r = randi([0 1]); th = 50; ch = 14 ;% char "s"
+N3 = [ 4 4 3 4
     4 1 4 2
     %      1     1     4     2     1     2     4     1     4     2
     ];%8 sessions
 
 
-n_cp = [2 3 1 0];% session wise n back {easy + hard}
+n_cp = [0 0 0 0];% session wise n back {easy + hard}
 n_bp = n_cp;
 % %% Instruction Images % Reading the image paths inst =
 % imageDatastore('input\nback\stimuli\instructions','FileExtensions',
@@ -79,8 +79,8 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
         fixCross(win,rect);
         WaitSecs(0.5)
         for loop = 1:nb_stimuli    % This loop controls how many stimuli's to show to the participant.
-            [corrAns_cp, ~] = nback_cp(idx, s); % generating correct answers before hand to evaluate participant performence :: char & position task
-            [corrAns_bp, ~] = nback_bp(c,idx,s); % generating correct answers before hand to evaluate participant performence :: bar & pie task
+            [corrAns_cp, ~] = nback_cp(idx, s, type, ch); % generating correct answers before hand to evaluate participant performence :: char & position task
+            [corrAns_bp, ~] = nback_bp(c, idx, s, type, th); % generating correct answers before hand to evaluate participant performence :: bar & pie task
             %% Play the slide
             showimg(Ir,win,loop,sz1,Q1,idx)
             
@@ -156,10 +156,10 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
         end % end of loop
         if mod(nn,2) == 0
             instruction_show(win, 'Sit Back and Relax. \n\nPlease Do Not Move',0 )
-            WaitSecs(10) %adjust between trials wait time say 10secs
+            WaitSecs(5) %adjust between trials wait time say 10secs
         end
     end
-    WaitSecs(15) %adjust waiting time between set of two trials
+    WaitSecs(0.5) %adjust waiting time between set of two trials
 end %end of cognload
 sca;
 fclose(outfile);

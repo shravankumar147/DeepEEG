@@ -1,5 +1,8 @@
-function batch_imresize(type,save)
+function batch_imresize(type,scale, save)
 if nargin < 2
+    scale = 0.5;
+end
+if nargin < 3
     save = 0;
 end
 
@@ -14,7 +17,7 @@ I = imd.Files;
 for i = 1:16
 Ib{i} = readimage(imd,i);
 I = Ib{i};
-I = imresize(I,0.6);
+I = imresize(I,scale);
 name = type;
 fname = [name num2str(1999+i) '.png'];
 imshow(I)

@@ -12,14 +12,29 @@ addpath('utils\');
 [win,rect] = screenSetup(2);
 KbName('UnifyKeyNames');
 spaceKey = KbName('space'); escKey = KbName('ESCAPE');
-% choose one out of four types : 1. char, 2.pos , 3. bar, 4.pie ==> 1, 2, 3, 4
-nb_blocks = 2; nb_stimuli = 6; k = 0; r = randi([0 1]); th = 50; ch = 14 ;% char "s"
-N3 = [ 4 3 2 1
-        4 1 4 2
-    %      1     1     4     2     1     2     4     1     4     2
+
+% Variables
+N3 = [
+    3     1     2     3     2     3     1     2     3     1
+    4     2     1     4     1     4     2     1     4     2
+    1     2     3     1     3     2     1     2     3     1
+    3     2     4     1     4     2     1     2     4     1
+    2     1     3     2     1     2     3     1     3     2
+    1     1     4     2     1     2     4     1     4     2
+    3     1     3     2     1     3     2     3     2     1
+    4     2     4     1     2     4     1     4     1     2
     ];%8 sessions
 
-n_cp = [3 2 1 0];% session wise n back {easy + hard}
+nb_blocks = size(N3,1);
+nb_stimuli = 12;
+k = 0;
+r = randi([0 1]);
+% threshold for 0-back for BAR Graphs
+th = 50;
+% char "s"
+ch = 14 ;
+
+n_cp = [0 1 2 3 0 1 2 3 0 3];% session wise n back
 n_bp = n_cp;
 % %% Instruction Images % Reading the image paths inst =
 % imageDatastore('input\nback\stimuli\instructions','FileExtensions',
@@ -41,17 +56,12 @@ n_bp = n_cp;
 
 %%
 for mm = 1:nb_blocks % This controls how many blocks you want to runs
-    
-    
     for nn = 1:size(N3,2)
         n = N3(mm,nn);
         if length(n_cp) >= nn
             idx = n_cp(nn); % idx is n-back
             seq = seqgen(idx);
             s = seq(randi([1,size(seq,1)]),:); % randomly selecting one out of 4 sequences for 2-back task
-            
-            %if length(n) >= mm
-            %k = k+1;
             type = stacktype(n);
             [I,le,sz1] = selimgtype(type);
             %%###################################%%
@@ -63,26 +73,26 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
         else
             continue;
         end
-        
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %% Main Loop
-        %         instruction_show(win);
-        c =randi([1,4]);     % color [1.blue; 2.cyan; 3.red; 4.green]
-        clr = chooseClr(c); % color [1.blue; 2.cyan; 3.red; 4.green] a string to show user/ participant: which color to compare
+        % color [1.blue; 2.cyan; 3.red; 4.green]
+        % a rondom number is generated to choose one of the four colors
+        c =randi([1,4]);
+        % Based on the c value any one of the color is choosen by the below
+        % function
+        % color [1.blue; 2.cyan; 3.red; 4.green]
+        clr = chooseClr(c);
         month = choosemnth(c); yr = yrgen(s) ;
-        %
-        %         in1 = ['Using ' num2str(idx) '-back' '\n\n ' 'Type : ' type];
-        %         instruction_show(win, in1,1 );
         [Q, Q1] = type_instructions(type, idx, month);
         instruction_show(win, Q,1 );
         fixCross(win,rect);
         WaitSecs(0.5)
-        for loop = 1:nb_stimuli    % This loop controls how many stimuli's to show to the participant.
+        % This loop controls how many stimuli's to show to the participant.
+        for loop = 1:nb_stimuli
             [corrAns_cp, ~] = nback_cp(idx, s, type, ch); % generating correct answers before hand to evaluate participant performence :: char & position task
             [corrAns_bp, ~] = nback_bp(c, idx, s, type, th); % generating correct answers before hand to evaluate participant performence :: bar & pie task
             %% Play the slide
             showimg(Ir,win,loop,sz1, type,Q1,idx, rect)
-            %% contineu or come out
+            % continue or come out
             keyIsDown=0;
             while 1
                 [keyIsDown, ~, keyCode] = KbCheck;
@@ -140,9 +150,9 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
             instruction_show(win, 'Sit Back and Relax. \n\nPlease Do Not Move',0 )
             WaitSecs(5) %adjust between trials wait time say 10secs
         end
-    end
+    end % end of stimuli
     WaitSecs(0.5) %adjust waiting time between set of two trials
-end %end of cognload
+end %end of nb_blocs
 sca;
 fclose(outfile);
 

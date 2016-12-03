@@ -44,10 +44,11 @@ elseif n==0 && strcmp(type,'pie')
     
 else    
     for i = 1:length(z)-n
-        if z(i+n) == z(i)
-            corrAns(i) = 3;
-            char(i) = 'E';
-        elseif z(i+n) < z(i)
+        %         if z(i+n) == z(i)
+        %             corrAns(i) = 3;
+        %             char(i) = 'E';
+        %         elseif z(i+n) < z(i)
+        if z(i+n) < z(i)
             corrAns(i) = 2;
             char(i) = 'N';
             

@@ -103,7 +103,7 @@ for mm = 1:nb_blocks % This controls how many blocks you want to runs
                             %                                 month num2str(yr(loop-(n_bp))) '-'  clr ];
                             %                         end
                             [~,x,~,~,ar,rt] = getResponse_bp(win,rect);
-                            [rate] = rater(x,ar,3);
+                            [rate] = rater(x,ar,2);
                             acc = abs(corrAns_bp(loop) - rate); % have to change according to the question asked
                             corrAns_cp(loop) = 0;
                         else

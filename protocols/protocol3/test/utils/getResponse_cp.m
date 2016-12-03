@@ -33,4 +33,5 @@ ShowCursor('hand');
 timeStart = GetSecs;
 [x, y, whichButton] = customGetClicks(10,win);
 rt = 1000.*(GetSecs-timeStart); % reaction time is added
+HideCursor(win)
 end

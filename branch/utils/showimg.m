@@ -27,13 +27,3 @@ Screen('FillRect', win , [0 0 0]);
 Screen('Flip', win);
 % HideCursor('hand');
 end
-
-% if loop > idx
-%     Screen('TextSize', win, 35); %
-%     Screen('TextFont', win,'Times'); %
-% %     DrawFormattedText(win, Q, rect(3)*0.0586, rect(4)*(1-0.0576), [255 255 255]);
-% DrawFormattedText(win, Q, 'center', rect(4)*(1-0.0576), [255 255 255]);
-% 
-% else
-%     Screen('DrawTexture', win,Screen('MakeTexture', win, img(sz1*(t)+1:((t+1)*sz1),:,:)));
-% end

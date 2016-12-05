@@ -14,7 +14,7 @@ addpath('utils\');
 [outfile, subid, subage, gender, group] = userlog();
 
 %paramaeters
-nb_stimuli = 3;
+nb_stimuli = 2;
 k = 0;
 r = randi([0 1]);
 % threshold for 0-back for BAR Graphs
@@ -30,7 +30,7 @@ midx_image         = 300;
 midx_qestion       = 400;
 midx_response      = 500;
 
-comid              = 'COM1';
+comid              = 'COM1'
 
 
 % Screen setup
@@ -38,7 +38,7 @@ PsychDefaultSetup(2);
 Screen('Preference', 'SkipSyncTests', 1); 
 Screen('Preference', 'VisualDebugLevel', 3);
 Screen('Preference', 'SuppressAllWarnings', 1);
-[win,rect] = screenSetup(2);
+[win,rect] = screenSetup(0);
 
 
 %key setup
@@ -59,15 +59,15 @@ n_sessions = [
 
 
 
-n_cp = [
-    0 1 0 1 2 3 2 3 1 0 1 0
-    1 0 3 2 3 2 1 0 2 3 3 2
-    ];% session wise n back
-
 % n_cp = [
-%     3 3 3 3 0 0 0 0  1 0 1 0
+%     0 1 0 1 2 3 2 3 1 0 1 0
 %     1 0 3 2 3 2 1 0 2 3 3 2
 %     ];% session wise n back
+
+n_cp = [
+    3 3 3 3 0 0 0 0  1 0 1 0
+    1 0 3 2 3 2 1 0 2 3 3 2
+    ];% session wise n back
 
 
 n_bp = n_cp;
@@ -77,10 +77,10 @@ nb_blocks = size(n_sessions,1);
 
 
 
-for s_id = 1:2%nb_blocks % This controls how many blocks you want to runs
+for s_id = 1:1%nb_blocks % This controls how many blocks you want to runs
     disp(['Trial' num2str(s_id) 'started'])
     system(['PortWrite ' comid ' ' num2str(midx_trial_start)]);
-    for set_id = 1:4%size(n_sessions,2)
+    for set_id = 1:8%size(n_sessions,2)
         disp(['Session' num2str(set_id) 'started'])
         system(['PortWrite ' comid ' ' num2str(midx_session_start)]);
         n= n_sessions(s_id,set_id);
@@ -119,7 +119,7 @@ for s_id = 1:2%nb_blocks % This controls how many blocks you want to runs
             [corrAns_cp, ~] = nback_cp(nback, s, type, ch); % generating correct answers before hand to evaluate participant performence :: char & position task
             [corrAns_bp, ~] = nback_bp(c, nback, s, type, th); % generating correct answers before hand to evaluate participant performence :: bar & pie task
             % Play the slide
-            disp(['Image ' num2str(loop) ' Displayed'])
+            disp(['Image' num2str(loop) 'Displayed'])
             system(['PortWrite ' comid ' ' num2str(midx_image)]);
             showimg(Ir,win,loop,sz1, type,Q1,nback, rect);
             % continue or come out
@@ -137,11 +137,9 @@ for s_id = 1:2%nb_blocks % This controls how many blocks you want to runs
                     if strcmp(type,'bar') || strcmp(type,'pie')
                         
                         if loop > nback
-                             disp(['Question ' num2str(loop) ' Displayed'])
-                             system(['PortWrite ' comid ' ' num2str(midx_qestion)]);
-                             [~,x,~,buttons,ar,rt] = getResponse(win,rect);
-                             disp(['Response ' num2str(loop) ' received'])
-                             system(['PortWrite ' comid ' ' num2str(midx_response)]);
+                             disp(['Question' num2str(loop) 'Displayed'])
+                             system(['PortWrite ' comid ' ' num2str(midx_)]);
+                            [~,x,~,buttons,ar,rt] = getResponse(win,rect);
                             resp = any(buttons);
                             if resp
                                 [rate] = rater(x,ar,2);
@@ -158,11 +156,7 @@ for s_id = 1:2%nb_blocks % This controls how many blocks you want to runs
                     elseif strcmp(type,'char') || strcmp(type,'pos')
                         clr = 'none';
                         if loop > nback
-                             disp(['Question ' num2str(loop) ' Displayed'])
-                             system(['PortWrite ' comid ' ' num2str(midx_qestion)]);
-                             [~,x,~,buttons,ar,rt] = getResponse(win,rect);
-                             disp(['Response ' num2str(loop) ' received'])
-                             system(['PortWrite ' comid ' ' num2str(midx_response)]);
+                            [~,x,~,buttons,ar,rt] = getResponse(win,rect);
                             resp = any(buttons);
                             if resp
                                 [rate] = rater(x,ar,2);

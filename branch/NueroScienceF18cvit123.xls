@@ -1,0 +1,11 @@
+Subid	 Subage	 Gender	 Group	 type	 CorrAns_CP	 n_cp	 CorrAns_BP	 n_bp	 COLOR	 Response	 Acc	 STATUS	  RT	 
+123	 18	 F	 cvit	 char	 2	 0	 0	 0	 none	 2	 1	 CORRECT	 2624.16	 
+123	 18	 F	 cvit	 char	 2	 0	 0	 0	 none	 1	 0	 WRONG	 1869.19	 
+123	 18	 F	 cvit	 char	 1	 0	 0	 0	 none	 0	 0	 WRONG	 10000.06	 
+123	 18	 F	 cvit	 pos	 1	 1	 0	 1	 none	 0	 0	 WRONG	 10000.02	 
+123	 18	 F	 cvit	 pos	 2	 1	 0	 1	 none	 2	 1	 CORRECT	 4411.55	 
+123	 18	 F	 cvit	 bar	 0	 0	 2	 0	 red	 2	 1	 CORRECT	 5553.52	 
+123	 18	 F	 cvit	 bar	 0	 0	 1	 0	 red	 2	 0	 WRONG	 787.13	 
+123	 18	 F	 cvit	 bar	 0	 0	 1	 0	 red	 2	 0	 WRONG	 1708.45	 
+123	 18	 F	 cvit	 pie	 0	 1	 1	 1	 cyan	 1	 1	 CORRECT	 2236.22	 
+123	 18	 F	 cvit	 pie	 0	 1	 2	 1	 cyan	 1	 0	 WRONG	 6797.84	 

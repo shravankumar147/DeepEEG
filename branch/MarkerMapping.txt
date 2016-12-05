@@ -1,0 +1,9 @@
+Trial Start = 1 
+Trial End   = 2
+
+Session Start = 3 
+Session End   = 4
+
+Image Display       = 101... 116
+Question Display    =201... 216
+Response Registered =301.. 316 

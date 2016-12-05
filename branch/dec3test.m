@@ -8,10 +8,11 @@
 
 clear;
 addpath('utils\');
+addpath('tobii_api\');
 
 
 %  UserData
-[outfile, subid, subage, gender, group] = userlog();
+[outfile, subid, subage, gender] = userlog();
 
 %paramaeters
 nb_stimuli = 3;
@@ -38,7 +39,8 @@ PsychDefaultSetup(2);
 Screen('Preference', 'SkipSyncTests', 1); 
 Screen('Preference', 'VisualDebugLevel', 3);
 Screen('Preference', 'SuppressAllWarnings', 1);
-[win,rect] = screenSetup(2);
+[win,rect] = screenSetup(0);
+%[win,rect] = screenSetup(2);
 
 
 %key setup
@@ -113,7 +115,7 @@ for s_id = 1:2%nb_blocks % This controls how many blocks you want to runs
         [Q, Q1] = type_instructions(type, nback, month);
         instruction_show(win, Q,1 );
         fixCross(win,rect);
-        WaitSecs(0.5)
+        WaitSecs(0.5);
         % This loop controls how many stimuli's to show to the participant.
         for loop = 1:nb_stimuli
             [corrAns_cp, ~] = nback_cp(nback, s, type, ch); % generating correct answers before hand to evaluate participant performence :: char & position task
@@ -178,8 +180,8 @@ for s_id = 1:2%nb_blocks % This controls how many blocks you want to runs
                         end
                     end
                     status = evaluater(acc);
-                    fprintf(outfile,'%s\t %s\t %s\t %s\t %s\t %d\t %d\t %d\t %d\t %s\t %d\t %d\t %s\t %3.2f\t \n',...
-                        subid, subage, gender, group, type, corrAns_cp(loop), nback, corrAns_bp(loop), nback, clr, rate, ~acc, status, rt);
+                    fprintf(outfile,'%s\t %s\t %s\t %s\t %d\t %d\t %d\t %d\t %s\t %d\t %d\t %s\t %3.2f\t \n',...
+                        subid, subage, gender, type, corrAns_cp(loop), nback, corrAns_bp(loop), nback, clr, rate, ~acc, status, rt);
                     break;
                 end
             end
@@ -196,6 +198,7 @@ for s_id = 1:2%nb_blocks % This controls how many blocks you want to runs
     
     disp(['Trial ' num2str(s_id) ' ended'])
     system(['PortWrite ' comid ' ' num2str(midx_trial_end)]);
+    
 end %end of nb_blocs
 sca;
 fclose(outfile);

@@ -19,7 +19,7 @@ end
     Screen('Flip', win);
     ShowCursor('hand');
     if gt == 1
-        GetClicks(win,0)
+        GetClicks(win,0);
     end
     
     

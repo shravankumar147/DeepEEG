@@ -19,9 +19,9 @@ end
 %%
 Screen('Flip', win); % must flip for the stimulus to show up on the mainwin
 if strcmp(type,'bar') || strcmp(type,'pie')
-    WaitSecs(1)     %adjust display duration for bars and pies
+    WaitSecs(1);     %adjust display duration for bars and pies
 else
-    WaitSecs(1)     %adjust display duration for spatial and chars
+    WaitSecs(1);     %adjust display duration for spatial and chars
 end
 Screen('FillRect', win , [0 0 0]);
 Screen('Flip', win);

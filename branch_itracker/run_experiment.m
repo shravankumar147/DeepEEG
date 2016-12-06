@@ -41,8 +41,8 @@ PsychDefaultSetup(2);
 Screen('Preference', 'SkipSyncTests', 1); 
 Screen('Preference', 'VisualDebugLevel', 3);
 Screen('Preference', 'SuppressAllWarnings', 1);
-%[win,rect] = screenSetup(0);
-[win,rect] = screenSetup(2);
+[win,rect] = screenSetup(0);
+%[win,rect] = screenSetup(2);
 
 
 %key setup

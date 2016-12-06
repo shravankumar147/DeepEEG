@@ -17,7 +17,7 @@ addpath('tobii_api\');
 [outfile,eyefile, subid, subage, gender,trialid] = userlog();
 
 %paramaeters
-nb_stimuli = 2;
+nb_stimuli = 12;
 k = 0;
 r = randi([0 1]);
 % threshold for 0-back for BAR Graphs
@@ -80,7 +80,7 @@ for t_id = 1:1%nb_blocks % This controls how many blocks you want to runs
     eye_ref_time = datestr(now,'HH:mm:ss.FFF');
     disp(['Trial' num2str(s_id) 'started'])
     system(['PortWrite ' comid ' ' num2str(midx_trial_start)]);
-    for set_id = 1:4%size(n_sessions,2)
+    for set_id = 1:size(n_sessions,2)
         disp(['Session' num2str(set_id) 'started'])
         system(['PortWrite ' comid ' ' num2str(midx_session_start)]);
         n= n_sessions(s_id,set_id);
@@ -199,7 +199,7 @@ for t_id = 1:1%nb_blocks % This controls how many blocks you want to runs
         system(['PortWrite ' comid ' ' num2str(midx_session_end)]);
         if mod(set_id,2) == 0
             instruction_show(win, 'Sit Back and Relax. \n\nPlease Do Not Move',0 )
-            WaitSecs(5) %adjust between trials wait time say 10secs
+            WaitSecs(10) %adjust between trials wait time say 10secs
         end
     end % end of stimuli
     WaitSecs(0.5) %adjust waiting time between set of two trials

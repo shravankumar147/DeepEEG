@@ -1,0 +1,9 @@
+Trial Start = 1 
+Trial End   = 2
+
+Session Start = 101..106
+Session End   = 201..206
+
+3mage Display       = 301.. 312
+Question Display    = 401.. 412 
+Response Registered = 501...512 

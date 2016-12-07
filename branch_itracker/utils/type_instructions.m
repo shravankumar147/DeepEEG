@@ -93,13 +93,14 @@ elseif strcmp(type,s2)
        Q1h = ['                    ' month '                                                  ' num2str(idx) '          '];
     else
         Q = ['A sequence of pie charts for rainfall data from January to April over years will be displayed.\n\n' ...
-            'Click     if you observe the rainfall for '    '    of the current year is higher than      '
+            'Click     if you observe the rainfall for '    '    of the current year is        '
             ];
        Qh = ['                                                                                              \n\n' ...
-            '      YES                                 ' month '                                    50cms'
+            '      YES                                 ' month '                        highest'
             ];
-        Q1 = ['If the rainfall for '    '    is greater the      then click YES otherwise NO'];
-       Q1h = ['                    ' month '                50cm                            '];
+        
+       Q1 = ['If the rainfall in the '    '    is the         among all, then click YES'];
+      Q1h = ['                       ' month '        highest                          '];
     end
     
 end

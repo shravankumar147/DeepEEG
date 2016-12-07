@@ -56,7 +56,6 @@ n_sessions = [
     4     2     3     1     4     2     3     1     4     2     3     1
     ];
 
-
 n_cp = [
     0 1 0 1 2 3 2 3 1 0 1 0
     1 0 3 2 3 2 1 0 2 3 3 2
@@ -64,6 +63,18 @@ n_cp = [
 
 
 
+idx=randperm(size(n_sessions,2)/2);
+for j=1:size(n_sessions,1)
+    for i =1:size(n_sessions,2)/2
+        new_session(j,2*i-1)=n_sessions(j,2*idx(i)-1);
+        new_session(j,2*i)  =n_sessions(j,2*idx(i));
+        new_cp(j,2*i-1)=n_cp(j,2*idx(i)-1);
+        new_cp(j,2*i)  =n_cp(j,2*idx(i));
+    end
+end
+
+n_sessions=new_session;
+n_cp=new_cp;
 
 n_bp = n_cp;
 
@@ -86,9 +97,9 @@ for t_id = 1:1%nb_blocks % This controls how many blocks you want to runs
         n= n_sessions(s_id,set_id);
         if length(n_cp(s_id,:)) >= set_id
             nback = n_cp(s_id,set_id); %n-back
-            seq = seqgen(nback);
-            s = seq(randi([1,size(seq,1)]),:); % randomly selecting one out of 4 sequences for 2-back task
             type = stacktype(n);
+            seq = seqgen(nback,type);
+            s = seq(randi([1,size(seq,1)]),:); % randomly selecting one out of 4 sequences for 2-back task
             [I,le,sz1] = selimgtype(type);
            
             Ir=[];
@@ -108,6 +119,10 @@ for t_id = 1:1%nb_blocks % This controls how many blocks you want to runs
         % Based on the c value any one of the color is choosen by the below
         % function
         % color [1.blue; 2.cyan; 3.red; 4.green]
+        if strcmp(type,'pie')
+            disp('choose mar');
+            c=3;
+        end
         clr = chooseClr(c);
         month = choosemnth(c); yr = yrgen(s) ;
         [Q, Q1] = type_instructions(type, nback, month);

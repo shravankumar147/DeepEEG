@@ -17,7 +17,7 @@ addpath('tobii_api\');
 [outfile,eyefile, subid, subage, gender,trialid] = userlog();
 
 %paramaeters
-nb_stimuli = 12;
+nb_stimuli = 6;
 k = 0;
 r = randi([0 1]);
 % threshold for 0-back for BAR Graphs
@@ -41,8 +41,8 @@ PsychDefaultSetup(2);
 Screen('Preference', 'SkipSyncTests', 1); 
 Screen('Preference', 'VisualDebugLevel', 3);
 Screen('Preference', 'SuppressAllWarnings', 1);
-%[win,rect] = screenSetup(0);
-[win,rect] = screenSetup(2);
+[win,rect] = screenSetup(0);
+%[win,rect] = screenSetup(2);
 
 
 %key setup
@@ -52,13 +52,13 @@ escKey = KbName('ESCAPE');
 
 %Session sequence
 n_sessions = [
-    3     1     4     2     3     1     4     2     3     1     4     2
+    1     2     3     4     1     2     3     4     3     1     4     2
     4     2     3     1     4     2     3     1     4     2     3     1
     ];
 
 
 n_cp = [
-    0 1 0 1 2 3 2 3 1 0 1 0
+    0 1 2 3 3 2 1 0 1 0 1 0
     1 0 3 2 3 2 1 0 2 3 3 2
     ];% session wise n back
 
@@ -80,15 +80,15 @@ for t_id = 1:1%nb_blocks % This controls how many blocks you want to runs
     eye_ref_time = datestr(now,'HH:mm:ss.FFF');
     disp(['Trial' num2str(s_id) 'started'])
     system(['PortWrite ' comid ' ' num2str(midx_trial_start)]);
-    for set_id = 1:size(n_sessions,2)
+    for set_id = 1:4%size(n_sessions,2)
         disp(['Session' num2str(set_id) 'started'])
         system(['PortWrite ' comid ' ' num2str(midx_session_start)]);
         n= n_sessions(s_id,set_id);
         if length(n_cp(s_id,:)) >= set_id
             nback = n_cp(s_id,set_id); %n-back
-            seq = seqgen(nback);
-            s = seq(randi([1,size(seq,1)]),:); % randomly selecting one out of 4 sequences for 2-back task
             type = stacktype(n);
+            seq = seqgen(nback,type);
+            s = seq(randi([1,size(seq,1)]),:); % randomly selecting one out of 4 sequences for 2-back task
             [I,le,sz1] = selimgtype(type);
            
             Ir=[];
@@ -108,8 +108,12 @@ for t_id = 1:1%nb_blocks % This controls how many blocks you want to runs
         % Based on the c value any one of the color is choosen by the below
         % function
         % color [1.blue; 2.cyan; 3.red; 4.green]
-        clr = chooseClr(c);
-        month = choosemnth(c); yr = yrgen(s) ;
+		 if strcmp(type,'pie')
+            disp('choose mar');
+            c=3;
+        end
+		clr = chooseClr(c);
+   		month = choosemnth(c); yr = yrgen(s) ;
         [Q, Q1] = type_instructions(type, nback, month);
         instruction_show(win, Q,1 );
         fixCross(win,rect);
